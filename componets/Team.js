@@ -3,7 +3,13 @@ import {View,Modal,Text} from 'react-native'
 import {Button,Card} from'react-native-elements'
 
 export class Team extends Component{
-
+getTotalPlayers(players){
+    let total = 0
+    if(players !==undefined){
+        total = players.length
+    }
+    return total
+}
     render(){
         return(
             <View>
@@ -13,10 +19,12 @@ export class Team extends Component{
                         title={this.props.equipo.nombre}
                         image={{uri:this.props.equipo.logo}}
                         >
-                            <Text>Jugadores:0</Text>
+                        <Text>Jugadores:{this.getTotalPlayers(this.props.equipo.jugadores)}</Text>
                             <Text>Estado:{this.props.equipo.estado}</Text>
 
-                    <Button onPress={()=> this.props.onToggleTeam()} title="Quitar"></Button>
+                    <Button 
+                    icon={{name:'x',type:'octicon'}}
+                    onPress={()=> this.props.onToggleTeam()} title="Quitar"></Button>
 
                     </Card>
                     </Modal>
