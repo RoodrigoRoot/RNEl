@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button,ListItem,List } from 'react-native-elements';
+import { Vibration,StyleSheet, Text, View, Modal } from 'react-native';
+
+import {Teams} from './componets/Teams'
+import {Team} from './componets/Team'
 
 const equipos = [
   {
@@ -52,26 +54,32 @@ const equipos = [
 
 export default class App extends React.Component {
 
-constructor(props){
-  super(props)
-  this.state={}
-}
+  state={
+    teamVisible:false,
+    selectedTeam:{}
+  }
+
+  toggleTeam(){
+    Vibration.vibrate()
+    this.setState({
+      teamVisible: !this.state.teamVisible
+    })
+  }
+
+  displayTeam(equipo){
+    this.setState({
+      selectedTeam:equipo
+    })
+    this.toggleTeam()
+  }
 
   render(){
     return (
      <View>
-       {equipos.map(equipo=>(
-         <ListItem key={equipo.id}
-         title={equipo.nombre}
-         
-         bottomDivider
-         
-         roundAvatar
-         leftAvatar={{source: {uri:equipo.logo}}}
-         subtitle={String(equipo.estado)}
-         chevron
-         />
-       ))}
+       
+       
+       <Teams onSelectTeam={(equipo)=> this.displayTeam(equipo)} equipos={equipos}/>
+        <Team equipo={this.state.selectedTeam} onToggleTeam={()=> this.toggleTeam()}  animation="slide" vis={this.state.teamVisible} />
      </View>
     )
   }
